@@ -29,7 +29,7 @@ app.put("/repositories/:id", (request, response) => {
   const { title, techs, url } = request.body;
   const respositorieIndex = repositories.findIndex(repositorie => repositorie.id === id);
   if (respositorieIndex < 0) {
-    return response.status(401).json({ "error": "escolha um repositório para fazer a atualização" });
+    return response.status(400).json({ "error": "repository that does not exist" });
   }
 
   repositorie = {
@@ -46,7 +46,7 @@ app.delete("/repositories/:id", (request, response) => {
   const respositorieIndex = repositories.findIndex(repositorie => repositorie.id === id);
 
   if (respositorieIndex < 0) {
-    return response.status(401).json({ "error": "selecione um projeto" });
+    return response.status(400).json({ "error": "repository that does not exist" });
   }
 
   repositories.splice(respositorieIndex, 1);
@@ -57,16 +57,16 @@ app.delete("/repositories/:id", (request, response) => {
 
 app.post("/repositories/:id/like", (request, response) => {
   const { id } = request.params;
-
+  console.log(id);
   const respositorieIndex = repositories.findIndex(repositorie => repositorie.id === id);
 
   if (respositorieIndex < 0) {
-    return response.status(401).json({ "error": "selecione um projeto" });
+    return response.status(400).json({ "error": "repository that does not exist" });
   }
 
-  repositories[respositorieIndex].like = +1;
+  repositories[respositorieIndex].likes++;
 
-  return response.json(repositories[respositorieIndex].like);
+  return response.json(repositories[respositorieIndex].likes);
 
 
 });
